@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="boton" class="btn btn-success" type="reset" onclick="miNombre()">Objeto 1</button><br>
+    <button id="boton" class="btn btn-success" type="reset" onclick="cambiarNombre()">Objeto 2</button><br>
+    <button id="boton" class="btn btn-success" type="reset" onclick="cambiarNombreReturn()">Objeto 3</button><br>
+    <button id="boton" class="btn btn-success" type="reset" onclick="cambiarNombreThis()">Objeto 4</button><br>
+    <button id="boton" class="btn btn-success" type="reset" onclick="cambiarNombreConstructor()">Objeto 5</button><br>
+    <button id="boton" class="btn btn-success" type="reset" onclick="cambiarConstructorDinamico()">Objeto 6</button><br>
+    <button id="boton" class="btn btn-success" type="reset" onclick="constructorMultiple()">Objeto 7</button><br>
+    <button id="boton" class="btn btn-success" type="reset" onclick="objeto8()">Objeto 8</button><br>
+    <button id="boton" class="btn btn-success" type="reset" onclick="objeto9()">Objeto 9</button><br>
+    <button id="boton" class="btn btn-success" type="reset" onclick="objeto10()">Objeto 10</button>
+
+    <script>
+
+        function miNombre(){
+            //creamos un objeto llamado mi objeto, con los valores nombre=juan y edad=30 
+            var miobjeto = {
+            nombre: "Juan",
+            edad: 30
+            };
+
+            //creamos una variable mensaje donde concatenamos el mensaje mi nombres es + miobjeto.nombre que nos trae "Juan"
+            var mensaje = "Mi nombre es " + miobjeto.nombre + "\r\n";
+            /*concatenamos en la variable mensaje miobjeto.edad que nos trae "30", al final nos da el valor de "Mi nombre es " Juan
+            Tengo  30 años */
+            mensaje += "Tengo " + miobjeto["edad"] + " años";
+            //imprimimos mensaje con un alert
+            alert(mensaje);
+        }
+
+        function cambiarNombre(){
+            //creamos un objeto llamado mi objeto, con los valores nombre=juan y edad=30 
+            var miobjeto = {
+            nombre: "Juan",
+            edad: 30,
+                mostrardatos: function() {
+            //creamos una variable mensaje donde concatenamos el mensaje mi nombres es + miobjeto.nombre que nos trae ""
+                    var mensaje = "Nombre: " + miobjeto.nombre + "\r\n";
+                    mensaje += "Edad: " + miobjeto.edad;
+                    alert(mensaje);
+                },
+            //creamos una variable donde cambiamos el nombre a uno nuevo
+                cambiarnombre: function(nombrenuevo) {
+                  miobjeto.nombre = nombrenuevo;  
+                }
+            };
+            miobjeto.mostrardatos(); // "Nombre: Juan Edad: 30"
+            miobjeto.cambiarnombre("José");
+            miobjeto.mostrardatos();
+        }
+
+        function cambiarNombreReturn(){
+            //creamos un objeto llamado mi objeto, con los valores nombre=juan y edad=30 
+            var miobjeto = {
+                nombre: "Juan",
+                edad: 30,
+                mostrardatos: function() {
+            //Creamos nombre en el cual se incorpora edad de igual manera
+                    var mensaje = "Nombre: " + miobjeto.nombre + "\r\n";
+                    mensaje += "Edad: " + miobjeto.edad;
+                    alert(mensaje);
+                },
+            //funcion de cambiar nombreviejo a nombrenuevo
+                cambiarnombre: function(nombrenuevo) {
+                    var nombreviejo = miobjeto.nombre;
+                    miobjeto.nombre = nombrenuevo;
+                    return nombreviejo;
+                } 
+            };
+            var anterior = miobjeto.cambiarnombre("José");
+            alert("Nombre viejo "+anterior);
+        
+        }
+
+        function cambiarNombreThis(){
+            //creamos un objeto llamado mi objeto, con los valores nombre=juan y edad=30 
+            var miobjeto = {
+            nombre: "Juan",
+            edad: 30,
+            mostrardatos: function() {
+            //mostamos datos de nombre y calculamos su edad
+                var mensaje = "Nombre: " + this.nombre + "\r\n";
+                mensaje += "Edad: " + this.edad;
+            },
+            cambiarnombre: function(nombrenuevo) {
+            //usamos this para trasladar de nombreviejo a nombrenuevo
+                var nombreviejo = this.nombre;
+                this.nombre = nombrenuevo;
+                return nombreviejo;
+            } };
+
+            //se regresa al nombre anterior
+            var anterior = miobjeto.cambiarnombre("José");
+            alert("El nombre anterior era: " + anterior);
+        }
+
+        function cambiarNombreConstructor(){
+            var constructor = function() {
+                //creamos un objeto llamado obj, con los valores nombre=juan y edad=30 
+                var obj = {
+                nombre: "Juan",
+                edad: 30,
+                    mostrarnombre: function() {
+                //damos el mensaje con el metodo this
+                        alert(this.nombre);
+                    },
+                    cambiarnombre: function(nombrenuevo) {
+                        this.nombre = nombrenuevo;
+                    }
+                };
+            //regresamos a obj
+                return obj;
+            };
+            var empleado = constructor();
+            empleado.mostrarnombre(); // “Juan”
+        }
+
+        function cambiarConstructorDinamico(){
+            var constructor = function(nombreinicial) {
+            //creamos un objeto llamado obj, con los valores nombre=inical y edad=30 
+                var obj = {
+                nombre: nombreinicial,
+                edad: 30,
+                    mostrarnombre: function() {
+            //cambiamos el nombre al nuevo
+                        alert(this.nombre);
+                    },
+                    cambiarnombre: function(nombrenuevo) {
+                        this.nombre = nombrenuevo;
+                    }
+                };
+                return obj;
+            //regresamos a obj
+            };
+            var empleado = constructor("Juan");
+            empleado.mostrarnombre(); // “Juan”
+        }
+
+        function constructorMultiple(){
+            //creamos un objeto llamado constructor y obj, con los valores nombre=inicial y edad=30 
+            var constructor = function(nombreinicial) {
+            var obj = {
+            nombre: nombreinicial,
+            edad: 30,
+                mostrarnombre: function() {
+            //funcion this.nombre 
+                    alert(this.nombre);
+                },
+                cambiarnombre: function(nombrenuevo) {
+                    this.nombre = nombrenuevo;
+                } 
+            };
+            return obj;
+            };
+            //creamos variables de empleado1, empleado2 y empleado3 con el metodo del constructor
+            var empleado1 = constructor("Juan");
+            var empleado2 = constructor("Roberto");
+            var empleado3 = constructor("Arturo");
+            alert(empleado1.nombre + ", " + empleado2.nombre + ", "+ 
+            empleado3.nombre);
+        }
+
+        function objeto8(){
+            var constructor = function() {
+            //creamos un objeto llamado nombre, edad y obj, con los valores nombre=juan y edad=30 
+            var nombre = "Juan";
+            var edad = 30;
+            var obj = {
+                    mostrarnombre: function() {
+                //hacemos la funcion de cambio del nombre
+                        alert(nombre);
+                    },
+                    cambiarnombre: function(nombrenuevo) {
+                        nombre = nombrenuevo;
+                } 
+            };
+            return obj;
+            //regresamos a obj
+            };
+            var empleado = constructor();
+            empleado.mostrarnombre(); // “Juan”
+        }
+
+        function objeto9(){
+            /*creamos una funcion en el cual creamos un objeto MiObjeto donde 
+            donde hacemos referencia a nombre y edad con los valores Juan y 30*/
+            function MiObjeto() {
+            this.nombre = "Juan";
+            this.edad = 30;
+            //tenemos la funcion mostrarnombre donde imprimimos "Juan"
+                this.mostrarnombre = function(){
+                    alert(this.nombre);
+                };
+                /*funcion cambiarnombre que recibe un parametro nombrenuevo 
+                donde hacemos referencia con this.nombre*/
+                this.cambiarnombre = function(nombrenuevo){
+                this.nombre = nombrenuevo;
+                };
+            }
+            //creamos una variable donde creamos un nuevo objeto MiObjeto
+            var empleado = new MiObjeto();
+            //mandamos el parametro Juan a la funcion mostrarnombre
+            empleado.mostrarnombre(); // “Juan”
+        }
+
+        function objeto10(){
+            //creamos una funcion objeto con los parametros nombreinicial y edadinicial
+            function MiObjeto(nombreinicial, edadinicial){
+                //hacemos referencia  a nombreinicial
+                this.nombre = nombreinicial;
+                //hacemos referencia a edadinicial
+                this.edad = edadinicial;
+                //funcion mostrarnombre donde recibimos el nombre "Roberto" y lo imprimimos
+                this.mostrarnombre = function(){
+                    alert(this.nombre);
+                };
+                //funcion cambiarnombre donde tenemos un parametro nombrenuevo donde hacemos referencia con this.nombre
+                this.cambiarnombre = function(nombrenuevo){
+                    this.nombre = nombrenuevo;
+                };
+            }
+            //creamos una variable donde creamos un nuevo objeto al cual le asignamos los parametros Roberto y 55
+            var empleado = new MiObjeto("Roberto", 55);
+            //mandamos el parametro Roberto a la funcion mostrarnombre
+            empleado.mostrarnombre(); // “Roberto”
+        }
+
+    </script>
+</body>
+</html>
